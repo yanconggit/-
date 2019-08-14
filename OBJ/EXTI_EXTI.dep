@@ -1,5 +1,5 @@
 Dependencies for Project 'EXTI', Target 'EXTI': (DO NOT MODIFY !)
-F (.\main.c)(0x5D49341B)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
+F (.\main.c)(0x5D54184A)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\main.o --omf_browse ..\obj\main.crf --depend ..\obj\main.d)
 I (..\SYSTEM\sys\sys.h)(0x5710F40F)
 I (..\USER\stm32f4xx.h)(0x5D3F0E99)
 I (..\CORE\core_cm4.h)(0x5710F409)
@@ -44,7 +44,7 @@ I (..\HARDWARE\KEY\key.h)(0x5710F40F)
 I (..\HARDWARE\EXTI\exti.h)(0x5710F40F)
 I (..\HARDWARE\TIMER\timer.h)(0x5D3FD166)
 I (..\HARDWARE\PWM\pwm.h)(0x5D3B0F49)
-I (driver.h)(0x5D491C42)
+I (driver.h)(0x5D5413E9)
 I (..\HARDWARE\LCD\lcd.h)(0x5D46929C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x574E3E26)
 I (..\HARDWARE\STMFLASH\stmflash.h)(0x5710F3A2)
@@ -174,7 +174,7 @@ I (..\HARDWARE\PWM\pwm.h)(0x5D3B0F49)
 I (..\HARDWARE\LCD\lcd.h)(0x5D46929C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x574E3E26)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x5D410ACA)
-I (driver.h)(0x5D491C42)
+I (driver.h)(0x5D5413E9)
 F (..\HARDWARE\LED\led.c)(0x5D43FDFA)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\led.o --omf_browse ..\obj\led.crf --depend ..\obj\led.d)
 I (..\HARDWARE\LED\led.h)(0x5710F40F)
 I (..\SYSTEM\sys\sys.h)(0x5710F40F)
@@ -366,7 +366,7 @@ I (..\FWLIB\inc\stm32f4xx_dac.h)(0x5710F40F)
 I (..\FWLIB\inc\stm32f4xx_dcmi.h)(0x5710F40F)
 I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x5710F40F)
 I (..\HARDWARE\LED\led.h)(0x5710F40F)
-I (..\USER\driver.h)(0x5D491C42)
+I (..\USER\driver.h)(0x5D5413E9)
 F (..\HARDWARE\PWM\pwm.c)(0x5D3E8446)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\pwm.o --omf_browse ..\obj\pwm.crf --depend ..\obj\pwm.d)
 I (..\HARDWARE\PWM\pwm.h)(0x5D3B0F49)
 I (..\SYSTEM\sys\sys.h)(0x5710F40F)
@@ -607,7 +607,7 @@ I (..\FWLIB\inc\stm32f4xx_fsmc.h)(0x5710F40F)
 I (..\SYSTEM\delay\delay.h)(0x5710F40F)
 I (..\SYSTEM\usart\usart.h)(0x5710F40F)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5D43ED36)
-F (..\HARDWARE\TOUCH\touch.c)(0x5D425782)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\touch.o --omf_browse ..\obj\touch.crf --depend ..\obj\touch.d)
+F (..\HARDWARE\TOUCH\touch.c)(0x5D5412B1)(-c --cpu Cortex-M4.fp -g -O0 --apcs=interwork -I ..\CORE -I ..\SYSTEM\delay -I ..\SYSTEM\sys -I ..\SYSTEM\usart -I ..\USER -I ..\HARDWARE\LED -I ..\HARDWARE\BEEP -I ..\HARDWARE\KEY -I ..\HARDWARE\EXTI -I ..\FWLIB\inc -I ..\HARDWARE\TIMER -I ..\HARDWARE\PWM -I ..\USER -I ..\HARDWARE\LCD -I ..\HARDWARE\STMFLASH -I ..\HARDWARE\IIC -I ..\HARDWARE\24CXX -I ..\HARDWARE\REMOTE -I ..\HARDWARE\TOUCH-I.\RTE\_EXTI-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-IC:\Keil_v5\ARM\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Device\Include-D__UVISION_VERSION="524" -DSTM32F407xx -DSTM32F40_41xxx -DUSE_STDPERIPH_DRIVER --C99-o ..\obj\touch.o --omf_browse ..\obj\touch.crf --depend ..\obj\touch.d)
 I (..\HARDWARE\TOUCH\touch.h)(0x5D4256FA)
 I (..\SYSTEM\sys\sys.h)(0x5710F40F)
 I (..\USER\stm32f4xx.h)(0x5D3F0E99)

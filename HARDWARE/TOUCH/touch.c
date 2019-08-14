@@ -480,3 +480,11 @@ u8 TP_Init(void)
 	}
 	return 1; 									 
 }
+//两个数之差的绝对值 
+//x1,x2：需取差值的两个数
+//返回值：|x1-x2|
+u16 my_abs(u16 x1,u16 x2)
+{			 
+	if(x1>x2)return x1-x2;
+	else return x2-x1;
+}  

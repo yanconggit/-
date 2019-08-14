@@ -16,108 +16,32 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "touch.h" 
-void touchscreen();
 
 
-extern float p,i,d;
-
-extern long anglebuf;
-extern unsigned int angle;
-extern void TIM13_PWM_Init(u32 arr,u32 psc);
-extern char uartbuf[];
-extern float speed;
 unsigned char setspeed = 50;
 u8 TEXT_Buffer[4]={"0"};
-
+u8 choose[10]="0";
 unsigned long pwm;
 char _pidbuf[6];
-void AllInit(void);
-void uart(void);
-void Draw(void);
-void pid1(void);
-void anglecontrol(long angle);
-void remote(void);
-void touch(void);
-u8 choose[10]="0";
-//extern struct  strpid pid;
-void KEY();
-
-
-void Load_Drow_Dialog(void)
-{
-	/*LCD_Clear(WHITE);//ÇåÆÁ   
- 	POINT_COLOR=BLUE;//ÉèÖÃ×ÖÌåÎªÀ¶É« 
-	LCD_ShowString(lcddev.width-24,0,200,16,16,"RST");//ÏÔÊ¾ÇåÆÁÇøÓò
-  	POINT_COLOR=RED;//ÉèÖÃ»­±ÊÀ¶É« */
-}
-
-
-//Á½¸öÊýÖ®²îµÄ¾ø¶ÔÖµ 
-//x1,x2£ºÐèÈ¡²îÖµµÄÁ½¸öÊý
-//·µ»ØÖµ£º|x1-x2|
-u16 my_abs(u16 x1,u16 x2)
-{			 
-	if(x1>x2)return x1-x2;
-	else return x2-x1;
-}  
-
-//µç×è´¥ÃþÆÁ²âÊÔº¯Êý
-void rtp_test(void)
-{  
-	while(1)
-	{
-		tp_dev.scan(0); 		 
-		if(tp_dev.sta&TP_PRES_DOWN)			//´¥ÃþÆÁ±»°´ÏÂ
-		{	
-		 	if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)
-			{	
-				if(tp_dev.x[0]>(lcddev.width-24)&&tp_dev.y[0]<16)Load_Drow_Dialog();//Çå³ý
-				//else TP_Draw_Big_Point(tp_dev.x[0],tp_dev.y[0],RED);		//»­Í¼	  			   
-			}
-		}else delay_ms(10);	//Ã»ÓÐ°´¼ü°´ÏÂµÄÊ±ºò 	    
-		/*if(key==KEY0_PRES)	//KEY0°´ÏÂ,ÔòÖ´ÐÐÐ£×¼³ÌÐò
-		{
-			LCD_Clear(WHITE);	//ÇåÆÁ
-		    TP_Adjust();  		//ÆÁÄ»Ð£×¼ 
-			TP_Save_Adjdata();	 
-			Load_Drow_Dialog();
-		}*/
-	}
-}
-
-
-
-
-
-
-
-
 
 
 int main(void)
 { 
 	
 	AllInit();		//³õÊ¼»¯
-	
-
 	while(1)
 	{
 		Draw();		//ÏÔÊ¾²¿·Ö
-		pid1();
-		uart();		//Çý¶¯
-		remote();
-		touch();
-		
-		if(setspeed>115)
-			setspeed=115;
-		
-		 KEY();
-		
+		pid1();			//PIDËÙ¶È¿ØÖÆ
+		uart();		//´®¿ÚÇý¶¯
+		remote(); //ºìÍâ½âÂë
+		touch();	//´¥ÃþÆÁ¼ì²â
+		KEY(); //°´¼ü¼ì²â
 	}
 }
 
 
-void KEY()
+void KEY(void) //°´¼ü´¦Àíº¯Êý ÉÏ¼Ó K0£ºÈ·ÈÏ K1£º¼õ  K2£ºÏÂÒ»¸ö
 {
 	u8 temp[6]="0VAPID";
 	static u8 tempindex=0;
@@ -174,103 +98,107 @@ void KEY()
 												case 'D':LCD_Fast_ShowChar(85,24,'D',24,0,RED);break;
 											}break;	
 		}
+		if(setspeed>115)
+			setspeed=115;
 	}
 }
-void touch()
+void touch(void)//´¥ÃþÆÁ´¦Àíº¯Êý
 {
-		tp_dev.scan(0); 		 
-		if(tp_dev.sta&TP_PRES_DOWN)			//´¥ÃþÆÁ±»°´ÏÂ
+	tp_dev.scan(0); 		 
+	if(tp_dev.sta&TP_PRES_DOWN)			//´¥ÃþÆÁ±»°´ÏÂ
+	{	
+		if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)
 		{	
-		 	if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)
-			{	
-				if(tp_dev.x[0]>190&&tp_dev.y[0]<70)
+			if(tp_dev.x[0]>190&&tp_dev.y[0]<70)
+			{
+				if(tp_dev.y[0]>0&&tp_dev.y[0]<26)//UP
 				{
-					if(tp_dev.y[0]>0&&tp_dev.y[0]<26)//UP
+					u8 _pidbuf[10]="0";
+					switch(choose[0])
 					{
-						u8 _pidbuf[10]="0";
-						switch(choose[0])
-						{
-							case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
-							//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
-							case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
-											AT24CXX_Write(4,_pidbuf,5);
-											LCD_Fill(20,48,64,60,WHITE);
-											Printf(20,48,16,"%f",p);break;
-							case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
-											AT24CXX_Write(10,_pidbuf,5);
-											LCD_Fill(80,48,124,60,WHITE);
-											Printf(80,48,16,"%f",i);break;
-							case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
-											AT24CXX_Write(16,_pidbuf,5);
-											LCD_Fill(140,48,180,60,WHITE);
-											Printf(140,48,16,"%f",d);break;
-						}
-						
-					}
-					else if(tp_dev.y[0]>26&&tp_dev.y[0]<48)//DOEN
-					{
-						u8 _pidbuf[10]="0";
-						switch(choose[0])
-						{
-							case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
-							//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
-							case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
-											AT24CXX_Write(4,_pidbuf,5);
-											LCD_Fill(20,48,64,60,WHITE);
-											Printf(20,48,16,"%f",p);break;
-							case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
-											AT24CXX_Write(10,_pidbuf,5);
-											LCD_Fill(80,48,124,60,WHITE);
-											Printf(80,48,16,"%f",i);break;
-							case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
-											AT24CXX_Write(16,_pidbuf,5);
-											LCD_Fill(140,48,180,60,WHITE);
-											Printf(140,48,16,"%f",d);break;
-						}
-					}
-					else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)//ENTER
-					{
-						choose[0] = '0';
-						LCD_Fill(84,23,97,48,WHITE);
+						case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
+						case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
+										AT24CXX_Write(4,_pidbuf,5);
+										LCD_Fill(20,48,64,60,WHITE);
+										Printf(20,48,16,"%f",p);break;
+						case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
+										AT24CXX_Write(10,_pidbuf,5);
+										LCD_Fill(80,48,124,60,WHITE);
+										Printf(80,48,16,"%f",i);break;
+						case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
+										AT24CXX_Write(16,_pidbuf,5);
+										LCD_Fill(140,48,180,60,WHITE);
+										Printf(140,48,16,"%f",d);break;
 					}
 					
 				}
-				else if(tp_dev.x[0]>130&&tp_dev.y[0]<48)
+				else if(tp_dev.y[0]>26&&tp_dev.y[0]<48)//DOEN
 				{
-					if(tp_dev.y[0]>0&&tp_dev.y[0]<26)
-						{
-							choose[0]='V';
-							LCD_Fast_ShowChar(85,24,'V',24,0,RED);
-						}
-					else if(tp_dev.y[0]>26&&tp_dev.y[0]<48)
+					u8 _pidbuf[10]="0";
+					switch(choose[0])
 					{
-						choose[0]='A';
-						LCD_Fast_ShowChar(85,24,'A',24,0,RED);
+						case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
+						case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+										AT24CXX_Write(4,_pidbuf,5);
+										LCD_Fill(20,48,64,60,WHITE);
+										Printf(20,48,16,"%f",p);break;
+						case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
+										AT24CXX_Write(10,_pidbuf,5);
+										LCD_Fill(80,48,124,60,WHITE);
+										Printf(80,48,16,"%f",i);break;
+						case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
+										AT24CXX_Write(16,_pidbuf,5);
+										LCD_Fill(140,48,180,60,WHITE);
+										Printf(140,48,16,"%f",d);break;
 					}
 				}
-				else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)
+				else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)//ENTER
 				{
-					if(tp_dev.x[0]>0&&tp_dev.x[0]<60)
-						{
-							choose[0]='P';
-							LCD_Fast_ShowChar(85,24,'P',24,0,RED);
-						}
-					else if(tp_dev.x[0]>60&&tp_dev.x[0]<125)
+					choose[0] = '0';
+					LCD_Fill(84,23,97,48,WHITE);
+				}
+				
+			}
+			else if(tp_dev.x[0]>130&&tp_dev.y[0]<48)
+			{
+				if(tp_dev.y[0]>0&&tp_dev.y[0]<26)
 					{
-						choose[0]='I';
-						LCD_Fast_ShowChar(85,24,'I',24,0,RED);
+						choose[0]='V';
+						LCD_Fast_ShowChar(85,24,'V',24,0,RED);
 					}
-					else if(tp_dev.x[0]>125&&tp_dev.x[0]<190)
+				else if(tp_dev.y[0]>26&&tp_dev.y[0]<48)
+				{
+					choose[0]='A';
+					LCD_Fast_ShowChar(85,24,'A',24,0,RED);
+				}
+			}
+			else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)
+			{
+				if(tp_dev.x[0]>0&&tp_dev.x[0]<60)
 					{
-						choose[0]='D';
-						LCD_Fast_ShowChar(85,24,'D',24,0,RED);
+						choose[0]='P';
+						LCD_Fast_ShowChar(85,24,'P',24,0,RED);
 					}
+				else if(tp_dev.x[0]>60&&tp_dev.x[0]<125)
+				{
+					choose[0]='I';
+					LCD_Fast_ShowChar(85,24,'I',24,0,RED);
+				}
+				else if(tp_dev.x[0]>125&&tp_dev.x[0]<190)
+				{
+					choose[0]='D';
+					LCD_Fast_ShowChar(85,24,'D',24,0,RED);
 				}
 			}
 		}
+		if(setspeed>115)
+		setspeed=115;
+	}
 }
 
-void remote()
+void remote(void)//Ô¶³Ì¿ØÖÆ£¨ºìÍâ£©
 {
 	static u8 key = 0;           //±£´æ¼üÖµ
 	if(key!=Remote_Scan())
@@ -279,9 +207,9 @@ void remote()
 			{
 				static u8 setspeedtemp,cishu=0;
 				
-				case 162:cishu=~cishu;if(cishu){setspeedtemp=setspeed;setspeed=0;}if(setspeed==0&&cishu==0){setspeed=setspeedtemp;}key=162;break;//power
-			  case 168:setspeed--;key=168;break;//down   
-				case 98:setspeed++;break;	    //up
+				case 162:cishu=~cishu;if(cishu){setspeedtemp=setspeed;setspeed=0;}if(setspeed==0&&cishu==0){setspeed=setspeedtemp;}key=162;break;//power²»Ö§³ÖÖØ¸´ÔÝÍ£¼°Æô¶¯
+			  case 168:setspeed--;key=168;break;//down   ¼õ ²»Ö§³ÖÖØ¸´
+				case 98:setspeed++;break;	    //up ¼Ó
 				default:key=1;break;
 			/*	case 2:str="PLAY";break;		 
 				case 226:str="ALIENTEK";break;		  
@@ -291,24 +219,26 @@ void remote()
 					case 0:str="ERROR";break;			   
 						   
 				case 144:str="VOL+";break;	*/	    
-				case 104:setspeed=10;break;//1		  
-				case 152:setspeed=20;break;	   //2
-				case 176:setspeed=30;;break;	    //3
-				case 48:setspeed=40;;break;		  //4  
-				case 24:setspeed=50;break;		    //5
-				case 122:setspeed=60;break;		  //6
-				case 16:setspeed=70;break;			//7   					
-				case 56:setspeed=80;;break;	 //8
-				case 90:setspeed=90;break;//9
-				case 66:setspeed=100;break;//0
+				case 104:setspeed=10;break;//1		 		 ËÙ¶ÈÉè¶¨10
+				case 152:setspeed=20;break;	   //2			ËÙ¶ÈÉè¶¨20
+				case 176:setspeed=30;;break;	    //3		ËÙ¶ÈÉè¶¨30
+				case 48:setspeed=40;;break;		  //4  		ËÙ¶ÈÉè¶¨40
+				case 24:setspeed=50;break;		    //5		ËÙ¶ÈÉè¶¨50
+				case 122:setspeed=60;break;		  //6			ËÙ¶ÈÉè¶¨60
+				case 16:setspeed=70;break;			//7   	ËÙ¶ÈÉè¶¨70
+				case 56:setspeed=80;;break;	 //8				ËÙ¶ÈÉè¶¨80
+				case 90:setspeed=90;break;//9						ËÙ¶ÈÉè¶¨90
+				case 66:setspeed=100;break;//0					ËÙ¶ÈÉè¶¨100
 				//case 82:str="DELETE";break;		 
 			}
+			sprintf(TEXT_Buffer,"%d",setspeed);
+			AT24CXX_Write(0,(u8*)TEXT_Buffer,4);
 			LCD_Fill(150,8,174,24,WHITE);		
-			Printf(150,8,16,"%d",setspeed);
+			Printf(150,8,16,"%d",setspeed);  //¸üÐÂËÙ¶ÈÏÔÊ¾
 		}
 }
 
-void anglecontrol(long angle)
+void anglecontrol(long angle)//½Ç¶È¿ØÖÆº¯Êý£¨´®¿ÚÖÐ±»µ÷ÓÃ£©
 {
 	long grid;
 	grid = angle*0.93;
@@ -327,7 +257,7 @@ void anglecontrol(long angle)
 	//while(1);
 	
 }
-void AllInit()
+void AllInit(void)//³õÊ¼»¯º¯Êý
 {
 	u8 datatemp[4];
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);//ÉèÖÃÏµÍ³ÖÐ¶ÏÓÅÏÈ¼¶·Ö×é2
@@ -339,10 +269,8 @@ void AllInit()
 	AT24CXX_Init();			//IIC³õÊ¼»¯ 
 	BEEP_Init();        //³õÊ¼»¯·äÃùÆ÷¶Ë¿Ú
 	EXTIX_Init();       //³õÊ¼»¯Íâ²¿ÖÐ¶ÏÊäÈë
-	Remote_Init();				//ºìÍâ½ÓÊÕ³õÊ¼»¯		
-	LCD_Init();           //³õÊ¼»¯LCD FSMC½Ó¿
-	tp_dev.init();				//´¥ÃþÆÁ³õÊ¼»¯Ú
-	POINT_COLOR=BLACK;      //»­±ÊÑÕÉ«£ººÚÉ«
+	Remote_Init();				//ºìÍâ½ÓÊÕ³õÊ¼»¯	
+	tp_dev.init();				//´¥ÃþÆÁ³õÊ¼»¯
 	
 	AT24CXX_Read(0,datatemp,4);  //³õÊ¼»¯PID¼°ËÙ¶ÈÄ¿±êÖµ
 	setspeed = atoi(datatemp);
@@ -352,6 +280,11 @@ void AllInit()
 	i=(float)atof(datatemp);
 	AT24CXX_Read(16,datatemp,6);
 	d=(float)atof(datatemp);
+	
+	LCD_Init();           //³õÊ¼»¯LCD FSMC½Ó¿Ú
+	POINT_COLOR=BLACK;      //»­±ÊÑÕÉ«£ººÚÉ«
+	
+	
 	
 
 	//¶¨Ê±Æ÷³õÊ¼»¯
@@ -367,7 +300,7 @@ void AllInit()
 	DrawAxis('y',20,0,320,80,6,360,3,12,BLACK);//×ó±ßµÄ½Ç¶ÈÖá
 }
 
-void Draw()
+void Draw(void)//»­Ãæ¸üÐÂº¯Êý
 {
 	static unsigned int ab=23,bc=319,abc=23,bcd=319,y=319,y1=319;
 	u8 times=0;
@@ -392,11 +325,11 @@ void Draw()
 	LCD_Fill(30,28,62,47,WHITE);			//»­²¨ÐÎÇ°²Á³ý
 	Printf(30,28,16,"%d",angle);//Ë²Ê±ËÙ¶È
 
-		delay_ms(20);
+	delay_ms(20);
 	
 }
 
-void pid1()
+void pid1(void)//pid¿ØÖÆ
 {
 	
 	pwm += PID_realize(setspeed);		//pidËã·¨¿ØÖÆ
@@ -423,7 +356,8 @@ void uart()//´®¿Ú
 				Printf(150,8,16,"%d",setspeed);	//ÏÔÊ¾ËÙ¶ÈÉè¶¨Öµ
 				strcpy(uartbuf,"**********");
 				strcpy(TEXT_Buffer,"00000000000\0");
-				
+				if(setspeed>115)
+					setspeed=115;
 			}
 			else if(uartbuf[1] == 'P')//ÐÞ¸ÄP
 			{
