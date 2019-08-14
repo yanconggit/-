@@ -1,0 +1,181 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.24.2.86
+Copyright (C) 2017 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: wang chong, wangchong, LIC=6XJII-T1TPR-151TV-PL4LH-QT65T-BR33N
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.21a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 3 (build 300)
+Assembler:       Armasm.exe V5.06 update 3 (build 300)
+Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
+Library Manager: ArmAr.exe V5.06 update 3 (build 300)
+Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
+CPU DLL:         SARMCM3.DLL V5.21a
+Dialog DLL:      DCM.DLL V1.13.8.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.14.0
+ 
+<h2>Project:</h2>
+D:\Desktop\加改值\USER\EXTI.uvprojx
+Project File Date:  08/13/2019
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'EXTI'
+compiling beep.c...
+compiling led.c...
+compiling stm32f4xx_it.c...
+compiling system_stm32f4xx.c...
+compiling driver.c...
+compiling key.c...
+compiling main.c...
+main.c(19): warning:  #1295-D: Deprecated declaration touchscreen - give arg types
+  void touchscreen();
+main.c(43): warning:  #1295-D: Deprecated declaration KEY - give arg types
+  void KEY();
+main.c(133): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  											case 'V':setspeed++;LCD_Fill(150,8,174,24,
+HITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+main.c(135): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  											case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
+main.c(135): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  											case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
+main.c(139): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  											case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
+main.c(139): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  											case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
+main.c(143): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  											case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
+main.c(143): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  											case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
+main.c(154): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  												case 'V':setspeed--;LCD_Fill(150,8,174,24,
+HITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+main.c(156): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  												case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+main.c(156): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  												case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+main.c(160): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  												case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
+main.c(160): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  												case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
+main.c(164): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  												case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
+main.c(164): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  												case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
+main.c(193): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'V':setspeed++;LCD_Fill(150,8,174,24,
+HITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+main.c(195): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
+main.c(195): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
+main.c(199): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
+main.c(199): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'I':i+=0.01;sprintf(_pidbuf,"%f",i);
+main.c(203): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
+main.c(203): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'D':d+=0.01;sprintf(_pidbuf,"%f",d);
+main.c(215): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'V':setspeed--;LCD_Fill(150,8,174,24,
+HITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+main.c(217): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+main.c(217): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+main.c(221): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
+main.c(221): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'I':i-=0.01;sprintf(_pidbuf,"%f",i);
+main.c(225): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  							case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
+main.c(225): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  							case 'D':d-=0.01;sprintf(_pidbuf,"%f",d);
+main.c(348): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "const char *"
+  	setspeed = atoi(datatemp);
+main.c(350): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "const char *"
+  	p=(float)atof(datatemp);
+main.c(352): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "const char *"
+  	i=(float)atof(datatemp);
+main.c(354): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "const char *"
+  	d=(float)atof(datatemp);
+main.c(373): warning:  #177-D: variable "times" was declared but never referenced
+  	u8 times=0;
+main.c(420): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  				sprintf(TEXT_Buffer,"%d",setspeed);//保???俣??瓒?值
+main.c(425): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "char *restrict"
+  				strcpy(TEXT_Buffer,"00000000000\0");
+main.c(432): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  				AT24CXX_Write(4,_pidbuf,5);
+main.c(442): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  				AT24CXX_Write(10,_pidbuf,5);
+main.c(452): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  				AT24CXX_Write(16,_pidbuf,5);
+main.c: 40 warnings, 0 errors
+compiling timer.c...
+..\HARDWARE\TIMER\timer.c(73): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		speed = speed*50.0/334.0;	
+..\HARDWARE\TIMER\timer.c: 1 warning, 0 errors
+compiling pwm.c...
+compiling exti.c...
+compiling lcd.c...
+..\HARDWARE\LCD\lcd.c(3008): warning:  #1256-D: "char" would have been promoted to "int" when passed through the ellipsis parameter; use the latter type instead
+  			case 'c':sprintf(tempbuf,"%c",
+a_arg(ap,char));break;
+..\HARDWARE\LCD\lcd.c(3009): warning:  #1256-D: "char" would have been promoted to "int" when passed through the ellipsis parameter; use the latter type instead
+  			case 'C':sprintf(tempbuf,"%c",
+a_arg(ap,char));break;
+..\HARDWARE\LCD\lcd.c(3013): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  		LCD_ShowString(x,y,120,size/4,size,tempbuf);
+..\HARDWARE\LCD\lcd.c(3041): warning:  #167-D: argument of type "char *" is incompatible with parameter of type "u8 *"
+  		LCD_ShowString(x,y,120,16,size,format);
+..\HARDWARE\LCD\lcd.c: 4 warnings, 0 errors
+compiling myiic.c...
+compiling stmflash.c...
+compiling 24cxx.c...
+assembling startup_stm32f40_41xxx.s...
+compiling remote.c...
+compiling usart.c...
+..\SYSTEM\usart\usart.c(115): warning:  #167-D: argument of type "u8 *" is incompatible with parameter of type "const char *restrict"
+  					strncpy(uartbuf,USART_RX_BUF,10);
+..\SYSTEM\usart\usart.c: 1 warning, 0 errors
+compiling misc.c...
+compiling delay.c...
+compiling sys.c...
+compiling stm32f4xx_gpio.c...
+compiling touch.c...
+compiling stm32f4xx_exti.c...
+compiling stm32f4xx_syscfg.c...
+compiling stm32f4xx_usart.c...
+compiling stm32f4xx_rcc.c...
+compiling stm32f4xx_fsmc.c...
+compiling stm32f4xx_flash.c...
+compiling stm32f4xx_tim.c...
+linking...
+Program Size: Code=56236 RO-data=7224 RW-data=212 ZI-data=1900  
+FromELF: creating hex file...
+"..\OBJ\EXTI.axf" - 0 Error(s), 46 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.2.9.0.pack
+                Keil.STM32F4xx_DFP.2.9.0
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
+
+<h2>Collection of Component include folders:</h2>
+  .\RTE\_EXTI
+  C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.9.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:17
+</pre>
+</body>
+</html>
