@@ -18,23 +18,22 @@
 #include "touch.h" 
 
 
-unsigned char setspeed = 50;
+unsigned char setspeed =0;
 u8 TEXT_Buffer[4]={"0"};
 u8 choose[10]="0";
 unsigned long pwm;
 char _pidbuf[10];
-
+char Key = 0;
 
 int main(void)
 { 
-	
 	AllInit();		//初始化
 	while(1)
 	{
+		remote(); //红外解码		
 		Draw();		//显示部分
 		pid1();			//PID速度控制
 		uart();		//串口驱动
-		remote(); //红外解码
 		touch();	//触摸屏检测
 		KEY(); //按键检测
 	}
@@ -77,7 +76,7 @@ void KEY(void) //按键处理函数 上加 K0：确认 K1：减  K2：下一个
 											{
 												case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
 												//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
-												case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
+												case 'P':p=p-0.01;sprintf(_pidbuf,"%f",p);
 																AT24CXX_Write(4,_pidbuf,5);
 																LCD_Fill(20,48,64,60,WHITE);
 																Printf(20,48,16,"%f",p);break;
@@ -90,7 +89,7 @@ void KEY(void) //按键处理函数 上加 K0：确认 K1：减  K2：下一个
 																LCD_Fill(140,48,180,60,WHITE);
 																Printf(140,48,16,"%f",d);break;
 											}}break;
-			case KEY2_PRES:tempindex++;choose[0]=temp[tempindex];switch(choose[0])		//下一个
+			case KEY2_PRES:tempindex++;if(tempindex>=6)tempindex=1;choose[0]=temp[tempindex];switch(choose[0])		//下一个
 											{
 												case 'V':LCD_Fast_ShowChar(85,24,'V',24,0,RED);break;
 												case 'P':LCD_Fast_ShowChar(85,24,'P',24,0,RED);break;
@@ -207,18 +206,17 @@ void remote(void)//远程控制（红外）
 			{
 				static u8 setspeedtemp,cishu=0;
 				
-				case 162:cishu=~cishu;if(cishu){setspeedtemp=setspeed;setspeed=0;}if(setspeed==0&&cishu==0){setspeed=setspeedtemp;}key=162;break;//power不支持重复暂停及启动
+				case 2:cishu=~cishu;if(cishu){setspeedtemp=setspeed;setspeed=0;}if(setspeed==0&&cishu==0){setspeed=setspeedtemp;}key=2;break;//play不支持重复暂停及启动
 			  case 168:setspeed--;key=168;break;//down   减 不支持重复
 				case 98:setspeed++;break;	    //up 加
-				default:key=1;break;
-			/*	case 2:str="PLAY";break;		 
-				case 226:str="ALIENTEK";break;		  
-				case 194:str="RIGHT";break;	   
-				case 34:str="LEFT";break;		  
-				case 224:str="VOL-";break;		  
-					case 0:str="ERROR";break;			   
-						   
-				case 144:str="VOL+";break;	*/	    
+				case 162:Key=1;;break;	//power 启动键	 
+//				case 226:str="ALIENTEK";break;		  
+//				case 194:str="RIGHT";break;	   
+//				case 34:str="LEFT";break;		  
+//				case 224:str="VOL-";break;		  
+//				case 0:str="ERROR";break;			      
+//				case 144:str="VOL+";break;	
+//				case 82:str="DELETE";break;				
 				case 104:setspeed=10;break;//1		 		 速度设定10
 				case 152:setspeed=20;break;	   //2			速度设定20
 				case 176:setspeed=30;;break;	    //3		速度设定30
@@ -228,8 +226,8 @@ void remote(void)//远程控制（红外）
 				case 16:setspeed=70;break;			//7   	速度设定70
 				case 56:setspeed=80;;break;	 //8				速度设定80
 				case 90:setspeed=90;break;//9						速度设定90
-				case 66:setspeed=100;break;//0					速度设定100
-				//case 82:str="DELETE";break;		 
+				case 66:setspeed=100;break;//0					速度设定100	
+				default:key=1;break;				
 			}
 			sprintf(TEXT_Buffer,"%d",setspeed);
 			AT24CXX_Write(0,(u8*)TEXT_Buffer,4);
@@ -292,22 +290,24 @@ void AllInit(void)//初始化函数
 
 	//定时器初始化
  	TIM3_Int_Init(200-1,8400-1);		//计时测速度//定时器时钟84M，分频系数8400，所以84M/8400=10Khz的计数频率，计数200次为20ms     
- 	TIM4_Int_Init(20-1,84);		//计时测速度//定时器时钟84M，分频系数8400，所以84M/8400=10Khz的计数频率，计数200次为20ms     
-	TIM13_PWM_Init(100-1,8400-1); 	//pwm//84M/84=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.     
+ 	TIM4_Int_Init(20-1,84);		//计时测速度//定时器时钟84M，分频系数8400，所以84M/8400=10Khz的计数频率，计数200次为20ms       
 	
 	//LCD显示初始化
-	Printf(15,8,16,"V:");Printf(30,8,16,"%D",3,101);Printf(62,8,16,"r/s");Printf(110,8,16,"AimV:");Printf(150,8,16,"%d",3,setspeed);LCD_Fill(190,5,239,26,BLUE);Printf(200,8,16,"Up");	
-	Printf(15,28,16,"A:");Printf(30,28,16,"%d",3,360);LCD_Draw_Circle(66,32,2);	Printf(110,28,16,"AimA:");Printf(200,28,16,"Down");
+	Printf(15,8,16,"V:");Printf(30,8,16,"%D",3,0);Printf(62,8,16,"r/s");Printf(110,8,16,"AimV:");Printf(150,8,16,"%d",3,setspeed);LCD_Fill(190,5,239,26,BLUE);Printf(200,8,16,"Up");	
+	Printf(15,28,16,"A:");Printf(30,28,16,"%d",3,0);LCD_Draw_Circle(66,32,2);	Printf(110,28,16,"AimA:");Printf(200,28,16,"Down");
 	Printf(5,48,16,"P:");Printf(20,48,16,"%f",p);Printf(65,48,16,"I:");Printf(80,48,16,"%f",i);Printf(125,48,16,"D:");Printf(140,48,16,"%f",d);LCD_Fill(190,46,239,66,BLUE);Printf(195,48,16,"Enter");
 	DrawAxis('y',215,1,320,80,6,120,3,12,RED);//右边的速度轴
 	DrawAxis('y',20,0,320,80,6,360,3,12,BLACK);//左边的角度轴
+	while(Key==0)
+		remote(); //红外解码
+	TIM13_PWM_Init(100-1,8400-1); 	//pwm//84M/84=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz. 
 }
 
 void Draw(void)//画面更新函数
 {
 	static unsigned int ab=23,bc=319,abc=23,bcd=319,y=319,y1=319;
 	u8 times=0;
-	ab++;  ab++; //ab++;    //扫描参数
+	ab++;  ab++;    //扫描参数
 	bc=320 - angle*0.67;		//角度
 	y= 320-speed*2;						//速度
 	if(ab>208)							//到最右边后返回
@@ -321,21 +321,20 @@ void Draw(void)//画面更新函数
 	}
 	abc=ab;bcd=bc;y1=y;				//记录上次的值
 	LCD_Fill(ab,80,ab+3,319,WHITE);			//画波形前擦除
-		
-	
+
 	LCD_Fill(30,8,62,27,WHITE);			//画波形前擦除
 	Printf(30,8,16,"%d",3,(int)speed);//瞬时速度
 	LCD_Fill(30,28,62,47,WHITE);			//画波形前擦除
 	Printf(30,28,16,"%d",3,angle);//瞬时速度
 
-	delay_ms(20);
+	delay_ms(15);
 	
 }
 
 void pid1(void)//pid控制
 {
 	
-	pwm += PID_realize(setspeed);		//pid算法控制
+	pwm += PID_realize(setspeed+1);		//pid算法控制
 	if(pwm>=100)
 		pwm = 99;
 	TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
