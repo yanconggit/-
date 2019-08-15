@@ -1,46 +1,30 @@
-ÊµÑéÆ÷²Ä:
-	Ì½Ë÷ÕßSTM32F4¿ª·¢°å
+å®žéªŒå™¨æ:
+	æŽ¢ç´¢è€…STM32F4å¼€å‘æ¿
+	Lm298N
 	
-ÊµÑéÄ¿µÄ:
-	Ñ§Ï°Íâ²¿ÖÐ¶ÏµÄÊ¹ÓÃ
+å®žéªŒç›®çš„:
+	å­¦ä¹ å¤–éƒ¨ä¸­æ–­çš„ä½¿ç”¨
 	
-Ó²¼þ×ÊÔ´:
-	1,DS0(Á¬½ÓÔÚPF9) 
-	2,·äÃùÆ÷(Á¬½ÓÔÚPF8) 
-	3,°´¼üKEY0(PE4)/KEY1(PE3)/KEY2(PE2)/KEY_UP(PA0,Ò²³ÆÖ®ÎªWK_UP)
+ç¡¬ä»¶èµ„æº:
+	1,DS0(è¿žæŽ¥åœ¨PF9) 
+	2,èœ‚é¸£å™¨(è¿žæŽ¥åœ¨PF8) 
+	3,æŒ‰é”®KEY0(PE4)/KEY1(PE3)/KEY2(PE2)/KEY_UP(PA0,ä¹Ÿç§°ä¹‹ä¸ºWK_UP)
 	
 	
-ÊµÑéÏÖÏó:
-	±¾ÊµÑé,ÀûÓÃÍâ²¿ÖÐ¶Ï£¬ÊµÏÖÓëÊµÑé3ÀàËÆµÄÐ§¹û£¬¼´£ºÍ¨¹ý¿ª·¢°åÉÏÔØÓÐµÄ4¸ö°´
-	Å¥£¨KEY_UP¡¢KEY0¡¢KEY1ºÍKEY2£©£¬À´¿ØÖÆ°åÉÏµÄ2¸öLED£¨DS0ºÍDS1£©ºÍ·äÃùÆ÷
-	£¬ÆäÖÐWK_UP¿ØÖÆ·äÃùÆ÷£¬°´Ò»´Î½Ð£¬ÔÙ°´Ò»´ÎÍ££»KEY2¿ØÖÆDS0£¬°´Ò»´ÎÁÁ£¬ÔÙ°´
-	Ò»´ÎÃð£»KEY1¿ØÖÆDS1£¬Ð§¹ûÍ¬KEY2£»KEY0ÔòÍ¬Ê±¿ØÖÆDS0ºÍDS1£¬°´Ò»´Î£¬ËûÃÇµÄ
-	×´Ì¬¾Í·­×ªÒ»´Î¡£
+å®žéªŒçŽ°è±¡:
+	æœ¬å®žéªŒ,åˆ©ç”¨å¤–éƒ¨ä¸­æ–­ï¼Œå®žçŽ°ä¸Žå®žéªŒ3ç±»ä¼¼çš„æ•ˆæžœï¼Œå³ï¼šé€šè¿‡å¼€å‘æ¿ä¸Šè½½æœ‰çš„4ä¸ªæŒ‰
+	é’®ï¼ˆKEY_UPã€KEY0ã€KEY1å’ŒKEY2ï¼‰ï¼Œæ¥æŽ§åˆ¶æ¿ä¸Šçš„2ä¸ªLEDï¼ˆDS0å’ŒDS1ï¼‰å’Œèœ‚é¸£å™¨
+	ï¼Œå…¶ä¸­WK_UPæŽ§åˆ¶èœ‚é¸£å™¨ï¼ŒæŒ‰ä¸€æ¬¡å«ï¼Œå†æŒ‰ä¸€æ¬¡åœï¼›KEY2æŽ§åˆ¶DS0ï¼ŒæŒ‰ä¸€æ¬¡äº®ï¼Œå†æŒ‰
+	ä¸€æ¬¡ç­ï¼›KEY1æŽ§åˆ¶DS1ï¼Œæ•ˆæžœåŒKEY2ï¼›KEY0åˆ™åŒæ—¶æŽ§åˆ¶DS0å’ŒDS1ï¼ŒæŒ‰ä¸€æ¬¡ï¼Œä»–ä»¬çš„
+	çŠ¶æ€å°±ç¿»è½¬ä¸€æ¬¡ã€‚
 	
-×¢ÒâÊÂÏî:
-	ÎÞ. 
+æ³¨æ„äº‹é¡¹:
+	æ— . 
 	 
 	 
-					ÕýµãÔ­×Ó@ALIENTEK
-					2014-10-25
-					¹ãÖÝÊÐÐÇÒíµç×Ó¿Æ¼¼ÓÐÏÞ¹«Ë¾
-					µç»°£º020-38271790
-					´«Õæ£º020-36773971
-					¹ºÂò£ºhttp://shop62103354.taobao.com
-					http://shop62057469.taobao.com
-					¹«Ë¾ÍøÕ¾£ºwww.alientek.com
-					¼¼ÊõÂÛÌ³£ºwww.openedv.com
+					@yanconggit
+					2019-8
+					æŠ€æœ¯è®ºå›ï¼šwww.hpuedd.com
 					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					
+		
 					
