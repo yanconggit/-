@@ -68,7 +68,6 @@ void TIM3_IRQHandler(void)
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
 	{
 		speed = (float)number[0];
-		
 		number[0] = 0;
 		speed = speed*50.0/334.0;	
 		Actualspeed(speed);
@@ -78,14 +77,11 @@ void TIM3_IRQHandler(void)
 //定时器4中断服务函数  //计算角度
 void TIM4_IRQHandler(void)
 {
-	
 	if(TIM_GetITStatus(TIM4,TIM_IT_Update)==SET) //溢出中断
 	{
 		angle = anglebuf%334*1.078;
 		if(anglebuf == 60120)  //180quan
-		{
 			anglebuf = 0;
-		}		
 	}
 	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //清除中断标志位
 }
