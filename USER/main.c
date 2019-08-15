@@ -22,7 +22,7 @@ unsigned char setspeed = 50;
 u8 TEXT_Buffer[4]={"0"};
 u8 choose[10]="0";
 unsigned long pwm;
-char _pidbuf[6];
+char _pidbuf[10];
 
 
 int main(void)
@@ -238,22 +238,25 @@ void remote(void)//远程控制（红外）
 		}
 }
 
-void anglecontrol(long angle)//角度控制函数（串口中被调用）
+void anglecontrol(long Angle)//角度控制函数（串口中被调用）
 {
 	long grid;
-	grid = angle*0.93;
-	pwm = 30;
+	grid = Angle*0.93;
+	pwm = 10;
 	TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
-	while(anglebuf <= grid-100)
+	while(anglebuf <= grid-200)
 	{
 		Draw();
-		pwm += PID_realize(setspeed);		//pid算法控制
+		/*pwm += PID_realize(setspeed);		//pid算法控制
 		if(pwm>=100)
 			pwm = 99;
-		TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
+		TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比*/
 	}
 
 	TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
+	setspeed=0;
+	LCD_Fill(150,8,174,24,WHITE);	
+	Printf(150,8,16,"%d",3,setspeed);	//显示速度设定值
 	//while(1);
 	
 }
@@ -343,7 +346,7 @@ void pid1(void)//pid控制
 
 void uart()//串口
 {
-	if(uartbuf[0]!='*'&&uartbuf[0]!='0')		
+	if(uartbuf[0]!='0')		
 	{
 		if(uartbuf[0] == 'C')//修改参数
 		{
@@ -354,8 +357,8 @@ void uart()//串口
 				AT24CXX_Write(0,(u8*)TEXT_Buffer,4);
 				LCD_Fill(150,8,174,24,WHITE);	
 				Printf(150,8,16,"%d",3,setspeed);	//显示速度设定值
-				strcpy(uartbuf,"**********");
-				strcpy(TEXT_Buffer,"00000000000\0");
+				strcpy(uartbuf,"000000000");
+				strcpy(TEXT_Buffer,"000000000\0");
 				if(setspeed>115)
 					setspeed=115;
 			}
@@ -366,8 +369,8 @@ void uart()//串口
 				AT24CXX_Write(4,_pidbuf,5);
 				LCD_Fill(20,48,64,60,WHITE);
 				Printf(20,48,16,"%f",p);
-				strcpy(uartbuf,"**********");
-				strcpy(_pidbuf,"00000000000\0");
+				strcpy(uartbuf,"000000000");
+				strcpy(_pidbuf,"000000000\0");
 			}
 			else if(uartbuf[1] == 'I')//修改I
 			{
@@ -376,8 +379,8 @@ void uart()//串口
 				AT24CXX_Write(10,_pidbuf,5);
 				LCD_Fill(80,48,124,60,WHITE);
 				Printf(80,48,16,"%f",i);
-				strcpy(uartbuf,"**********");
-				strcpy(_pidbuf,"00000000000\0");
+				strcpy(uartbuf,"000000000");
+				strcpy(_pidbuf,"000000000\0");
 			}
 			else if(uartbuf[1] == 'D')//修改D
 			{
@@ -386,8 +389,8 @@ void uart()//串口
 				AT24CXX_Write(16,_pidbuf,5);
 				LCD_Fill(140,48,180,60,WHITE);
 				Printf(140,48,16,"%f",d);
-				strcpy(uartbuf,"*********");
-				strcpy(_pidbuf,"00000000000\0");
+				strcpy(uartbuf,"000000000");
+				strcpy(_pidbuf,"000000000\0");
 			}
 		}
 		else	if(uartbuf[0] == 'S')//设定角度
@@ -398,11 +401,12 @@ void uart()//串口
 				angle1 = atol(uartbuf+2);
 				TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
 				anglebuf = 0;
+				angle = 0;
 				LCD_Fill(150,28,170,44,WHITE);
-				Printf(150,28,16,"%d",3,angle1);
+				Printf(150,28,16,"%d",5,angle1);
+				delay_ms(1000);
 				anglecontrol(angle1);
-				setspeed=0;
-				strcpy(uartbuf,"****************");
+				strcpy(uartbuf,"000000000");
 			}
 		}
 	}

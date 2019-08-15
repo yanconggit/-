@@ -11,16 +11,12 @@ void DrawAxis(u8 mode,u16 val,u8 direction,u16 begin,u16 end,u8 copies,u16 num,u
 
 extern unsigned char choose[];
 
-
-
-
 extern float p,i,d;
 extern float speed;
 extern long anglebuf;
 extern char uartbuf[];
 extern unsigned int angle;
 extern void TIM13_PWM_Init(u32 arr,u32 psc);
-
 
 void KEY(void);
 void uart(void);

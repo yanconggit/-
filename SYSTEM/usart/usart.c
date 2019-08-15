@@ -6,7 +6,7 @@
 #include "includes.h"					//ucos 使用	  
 #endif
   
- char uartbuf[30]={0};     //接收缓冲,最大USART_REC_LEN个字节.
+ char uartbuf[11]={0};     //接收缓冲,最大USART_REC_LEN个字节.
 
 
 //////////////////////////////////////////////////////////////////
