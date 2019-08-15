@@ -54,7 +54,7 @@ void KEY(void) //按键处理函数 上加 K0：确认 K1：减  K2：下一个
 			case WKUP_PRES:{u8 _pidbuf[10]="0";
 										switch(choose[0])
 										{
-											case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+											case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
 											//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
 											case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
 															AT24CXX_Write(4,_pidbuf,5);
@@ -75,7 +75,7 @@ void KEY(void) //按键处理函数 上加 K0：确认 K1：减  K2：下一个
 											u8 _pidbuf[10]="0";
 											switch(choose[0])
 											{
-												case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+												case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
 												//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
 												case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
 																AT24CXX_Write(4,_pidbuf,5);
@@ -116,7 +116,7 @@ void touch(void)//触摸屏处理函数
 					u8 _pidbuf[10]="0";
 					switch(choose[0])
 					{
-						case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+						case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
 						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
 						case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
 										AT24CXX_Write(4,_pidbuf,5);
@@ -138,7 +138,7 @@ void touch(void)//触摸屏处理函数
 					u8 _pidbuf[10]="0";
 					switch(choose[0])
 					{
-						case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
+						case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
 						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
 						case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
 										AT24CXX_Write(4,_pidbuf,5);
@@ -234,7 +234,7 @@ void remote(void)//远程控制（红外）
 			sprintf(TEXT_Buffer,"%d",setspeed);
 			AT24CXX_Write(0,(u8*)TEXT_Buffer,4);
 			LCD_Fill(150,8,174,24,WHITE);		
-			Printf(150,8,16,"%d",setspeed);  //更新速度显示
+			Printf(150,8,16,"%d",3,setspeed);  //更新速度显示
 		}
 }
 
@@ -293,8 +293,8 @@ void AllInit(void)//初始化函数
 	TIM13_PWM_Init(100-1,8400-1); 	//pwm//84M/84=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz.     
 	
 	//LCD显示初始化
-	Printf(15,8,16,"V:");Printf(30,8,16,"%d",100);Printf(62,8,16,"r/s");Printf(110,8,16,"AimV:");Printf(150,8,16,"%d",setspeed);LCD_Fill(190,5,239,26,BLUE);Printf(200,8,16,"Up");	
-	Printf(15,28,16,"A:");Printf(30,28,16,"%d",360);LCD_Draw_Circle(66,32,2);	Printf(110,28,16,"AimA:");Printf(200,28,16,"Down");
+	Printf(15,8,16,"V:");Printf(30,8,16,"%D",3,101);Printf(62,8,16,"r/s");Printf(110,8,16,"AimV:");Printf(150,8,16,"%d",3,setspeed);LCD_Fill(190,5,239,26,BLUE);Printf(200,8,16,"Up");	
+	Printf(15,28,16,"A:");Printf(30,28,16,"%d",3,360);LCD_Draw_Circle(66,32,2);	Printf(110,28,16,"AimA:");Printf(200,28,16,"Down");
 	Printf(5,48,16,"P:");Printf(20,48,16,"%f",p);Printf(65,48,16,"I:");Printf(80,48,16,"%f",i);Printf(125,48,16,"D:");Printf(140,48,16,"%f",d);LCD_Fill(190,46,239,66,BLUE);Printf(195,48,16,"Enter");
 	DrawAxis('y',215,1,320,80,6,120,3,12,RED);//右边的速度轴
 	DrawAxis('y',20,0,320,80,6,360,3,12,BLACK);//左边的角度轴
@@ -321,9 +321,9 @@ void Draw(void)//画面更新函数
 		
 	
 	LCD_Fill(30,8,62,27,WHITE);			//画波形前擦除
-	Printf(30,8,16,"%d",(int)speed);//瞬时速度
+	Printf(30,8,16,"%d",3,(int)speed);//瞬时速度
 	LCD_Fill(30,28,62,47,WHITE);			//画波形前擦除
-	Printf(30,28,16,"%d",angle);//瞬时速度
+	Printf(30,28,16,"%d",3,angle);//瞬时速度
 
 	delay_ms(20);
 	
@@ -353,7 +353,7 @@ void uart()//串口
 				sprintf(TEXT_Buffer,"%d",setspeed);//保存速度设定值
 				AT24CXX_Write(0,(u8*)TEXT_Buffer,4);
 				LCD_Fill(150,8,174,24,WHITE);	
-				Printf(150,8,16,"%d",setspeed);	//显示速度设定值
+				Printf(150,8,16,"%d",3,setspeed);	//显示速度设定值
 				strcpy(uartbuf,"**********");
 				strcpy(TEXT_Buffer,"00000000000\0");
 				if(setspeed>115)
@@ -399,7 +399,7 @@ void uart()//串口
 				TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
 				anglebuf = 0;
 				LCD_Fill(150,28,170,44,WHITE);
-				Printf(150,28,16,"%d",angle1);
+				Printf(150,28,16,"%d",3,angle1);
 				anglecontrol(angle1);
 				setspeed=0;
 				strcpy(uartbuf,"****************");

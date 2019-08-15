@@ -5,7 +5,7 @@
 #include "delay.h"	 
 #include "stdarg.h"
 
-
+extern void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);
 
 //LCD的画笔颜色和背景色	   
 u16 POINT_COLOR=0x0000;	//画笔颜色
@@ -2985,11 +2985,15 @@ void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p)
         p++;
     }  
 }
-/*int putchar(u16 x,u16 y,u8 num,u8 size,u8 mode,u16 color)
-{
-	LCD_Fast_ShowChar(x,y,num,size,mode,color);
-}*/
-//sprintf(speedbuf,"%8.1f",speed);
+
+
+//x,y：起始坐标
+//size:字体尺寸
+//整型：“%d”,最大数的位数,数字
+//浮点型：“&f”,数字
+//十六进制显示：“%x”,数字
+//字符：“%C”,数字
+//输出字符串直接“要输出的字符串”
 void Printf(u16 x,u16 y,u8 size,char *format,...)
 {
 	char tempbuf[30];
@@ -2999,18 +3003,17 @@ void Printf(u16 x,u16 y,u8 size,char *format,...)
 	{
 		switch(*++format)
 		{
-			case 'd':sprintf(tempbuf,"%d",va_arg(ap,int));break;
-			case 'D':sprintf(tempbuf,"%d",va_arg(ap,int));break;
-			case 'f':sprintf(tempbuf,"%.2f",va_arg(ap,double));break;
-			case 'F':sprintf(tempbuf,"%f",va_arg(ap,double));break;
-			case 'x':sprintf(tempbuf,"%#x",va_arg(ap,int));break;
-			case 'X':sprintf(tempbuf,"%#x",va_arg(ap,int));break;
-			case 'c':sprintf(tempbuf,"%c",va_arg(ap,char));break;
-			case 'C':sprintf(tempbuf,"%c",va_arg(ap,char));break;
+			case 'D':LCD_Fast_ShowNum(x,y,va_arg(ap,int),va_arg(ap,int),size,BLACK);break;
+			case 'd':LCD_Fast_ShowNum(x,y,va_arg(ap,int),va_arg(ap,int),size,BLACK);break;
+			case 'f':sprintf(tempbuf,"%.2f",va_arg(ap,double));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
+			case 'F':sprintf(tempbuf,"%f",va_arg(ap,double));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
+			case 'x':sprintf(tempbuf,"%#x",va_arg(ap,int));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
+			case 'X':sprintf(tempbuf,"%#x",va_arg(ap,int));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
+			case 'c':sprintf(tempbuf,"%c",va_arg(ap,char));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
+			case 'C':sprintf(tempbuf,"%c",va_arg(ap,char));LCD_ShowString(x,y,120,size/4,size,tempbuf);break;
 			//case 's':sprintf(tempbuf,"c",va_arg(ap,char));break;
 			default:sprintf(tempbuf,"%s","error");break;
 		}
-		LCD_ShowString(x,y,120,size/4,size,tempbuf);
 	}
 	else
 	{
