@@ -18,7 +18,7 @@
 #include "touch.h" 
 
 
-unsigned char setspeed =0;
+char setspeed =0;
 u8 TEXT_Buffer[4]={"0"};
 u8 choose[10]="0";
 unsigned long pwm;
@@ -36,6 +36,8 @@ int main(void)
 		uart();		//串口驱动
 		touch();	//触摸屏检测
 		KEY(); //按键检测
+		if(setspeed>=115)
+			setspeed=115;
 	}
 }
 
@@ -159,9 +161,6 @@ void touch(void)//触摸屏处理函数
 					if(choose[0]=='A')
 					{
 						TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
-						anglebuf = 0;
-						angle = 0;
-						delay_ms(1000);
 						anglecontrol(angle1);
 					}
 					choose[0] = '0';
@@ -248,24 +247,23 @@ void remote(void)//远程控制（红外）
 void anglecontrol(long Angle)//角度控制函数
 {
 	long grid;
+	int i;
 	grid = Angle*0.93;
 	pwm = 10;
-	TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
-	while(anglebuf <= grid-200)
+	setspeed=0;
+	TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
+	anglebuf = 0;
+	angle = 0;
+	for(i=0;i<100;i++)
 	{
 		Draw();
-		/*pwm += PID_realize(setspeed);		//pid算法控制
-		if(pwm>=100)
-			pwm = 99;
-		TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比*/
 	}
-	
+	TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
+	while(anglebuf <= grid-20)
+		Draw();
 	TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
-	setspeed=0;
 	LCD_Fill(150,8,174,24,WHITE);	
-	Printf(150,8,16,"%d",3,setspeed);	//显示速度设定值
-	//while(1);
-	
+	Printf(150,8,16,"%d",3,setspeed);	//显示速度设定值	
 }
 void AllInit(void)//初始化函数
 {
@@ -293,9 +291,6 @@ void AllInit(void)//初始化函数
 	
 	LCD_Init();           //初始化LCD FSMC接口
 	POINT_COLOR=BLACK;      //画笔颜色：黑色
-	
-	
-	
 
 	//定时器初始化
  	TIM3_Int_Init(200-1,8400-1);		//计时测速度//定时器时钟84M，分频系数8400，所以84M/8400=10Khz的计数频率，计数200次为20ms     
@@ -308,7 +303,10 @@ void AllInit(void)//初始化函数
 	DrawAxis('y',215,1,320,80,6,120,3,12,RED);//右边的速度轴
 	DrawAxis('y',20,0,320,80,6,360,3,12,BLACK);//左边的角度轴
 	while(Key==0)
+	{
 		remote(); //红外解码
+		uart();//串口解锁
+	}
 	TIM13_PWM_Init(100-1,8400-1); 	//pwm//84M/84=1Mhz的计数频率,重装载值500，所以PWM频率为 1M/500=2Khz. 
 }
 
@@ -335,15 +333,13 @@ void Draw(void)//画面更新函数
 	Printf(30,8,16,"%d",3,(int)speed);//瞬时速度
 	LCD_Fill(30,28,62,47,WHITE);			//画波形前擦除
 	Printf(30,28,16,"%d",3,angle);//瞬时速度
-
 	delay_ms(15);
-	
 }
 
 void pid1(void)//pid控制
 {
 	
-	pwm += PID_realize(setspeed+1);		//pid算法控制
+	pwm += PID_realize(setspeed);		//pid算法控制
 	if(pwm>=100)
 		pwm = 99;
 	TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比
@@ -408,14 +404,15 @@ void uart()//串口
 				long angle1;
 				angle1 = atol(uartbuf+2);
 				TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
-				anglebuf = 0;
-				angle = 0;
 				LCD_Fill(150,28,170,44,WHITE);
 				Printf(150,28,16,"%d",5,angle1);
-				delay_ms(1000);
 				anglecontrol(angle1);
 				strcpy(uartbuf,"000000000");
 			}
+		}
+		else if(strcmp(uartbuf,"OPEN")==0)
+		{
+			Key = 1;
 		}
 	}
 }

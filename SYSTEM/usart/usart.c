@@ -6,7 +6,7 @@
 #include "includes.h"					//ucos 使用	  
 #endif
   
- char uartbuf[11]={0};     //接收缓冲,最大USART_REC_LEN个字节.
+char uartbuf[11]={0};     //接收缓冲,最大USART_REC_LEN个字节.
 
 
 //////////////////////////////////////////////////////////////////
@@ -37,7 +37,7 @@ int fputc(int ch, FILE *f)
 #if EN_USART1_RX   //如果使能了接收
 //串口1中断服务程序
 //注意,读取USARTx->SR能避免莫名其妙的错误   	
-u8 USART_RX_BUF[USART_REC_LEN];     //接收缓冲,最大USART_REC_LEN个字节.
+u8 USART_RX_BUF[USART_REC_LEN]={0};     //接收缓冲,最大USART_REC_LEN个字节.
 //接收状态
 //bit15，	接收完成标志
 //bit14，	接收到0x0d

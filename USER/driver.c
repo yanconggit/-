@@ -40,6 +40,8 @@ void Actualspeed(float actualspeed)
 }
 float PID_realize(float speed)
 	{
+		if(speed)
+			speed+=1;
 		pid.setspeed=speed; 
 		pid.err=pid.setspeed-pid.actualspeed; 
 		float incrementSpeed=p*(pid.err-pid.errnext)+i*pid.err+d*(pid.err-2*pid.errnext+pid.errlast);
