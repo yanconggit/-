@@ -106,9 +106,10 @@ void touch(void)//触摸屏处理函数
 	tp_dev.scan(0); 		 
 	if(tp_dev.sta&TP_PRES_DOWN)			//触摸屏被按下
 	{	
-		if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)
+		if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)  //触摸有效
 		{	
-			if(tp_dev.x[0]>190&&tp_dev.y[0]<70)
+			static int angle1=0; //控制角度缓存
+			if(tp_dev.x[0]>190&&tp_dev.y[0]<70)		//右侧虚拟按键
 			{
 				if(tp_dev.y[0]>0&&tp_dev.y[0]<26)//UP
 				{
@@ -116,7 +117,7 @@ void touch(void)//触摸屏处理函数
 					switch(choose[0])
 					{
 						case 'V':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
-						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
+						case 'A':angle1+=360;LCD_Fill(150,28,170,44,WHITE);Printf(150,28,16,"%d",5,angle1);break;
 						case 'P':p+=0.01;sprintf(_pidbuf,"%f",p);
 										AT24CXX_Write(4,_pidbuf,5);
 										LCD_Fill(20,48,64,60,WHITE);
@@ -138,7 +139,7 @@ void touch(void)//触摸屏处理函数
 					switch(choose[0])
 					{
 						case 'V':setspeed--;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",3,setspeed);sprintf(TEXT_Buffer,"%d",setspeed);AT24CXX_Write(0,(u8*)TEXT_Buffer,4);break;
-						//case 'A':setspeed++;LCD_Fill(150,8,174,24,WHITE);	Printf(150,8,16,"%d",setspeed);break;
+						case 'A':angle1-=180;if(angle1<0)angle1=0;LCD_Fill(150,28,170,44,WHITE);Printf(150,28,16,"%d",5,angle1);break;
 						case 'P':p-=0.01;sprintf(_pidbuf,"%f",p);
 										AT24CXX_Write(4,_pidbuf,5);
 										LCD_Fill(20,48,64,60,WHITE);
@@ -155,6 +156,14 @@ void touch(void)//触摸屏处理函数
 				}
 				else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)//ENTER
 				{
+					if(choose[0]=='A')
+					{
+						TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
+						anglebuf = 0;
+						angle = 0;
+						delay_ms(1000);
+						anglecontrol(angle1);
+					}
 					choose[0] = '0';
 					LCD_Fill(84,23,97,48,WHITE);
 				}
@@ -163,10 +172,10 @@ void touch(void)//触摸屏处理函数
 			else if(tp_dev.x[0]>130&&tp_dev.y[0]<48)
 			{
 				if(tp_dev.y[0]>0&&tp_dev.y[0]<26)
-					{
-						choose[0]='V';
-						LCD_Fast_ShowChar(85,24,'V',24,0,RED);
-					}
+				{
+					choose[0]='V';
+					LCD_Fast_ShowChar(85,24,'V',24,0,RED);
+				}
 				else if(tp_dev.y[0]>26&&tp_dev.y[0]<48)
 				{
 					choose[0]='A';
@@ -176,10 +185,10 @@ void touch(void)//触摸屏处理函数
 			else if(tp_dev.y[0]>48&&tp_dev.y[0]<70)
 			{
 				if(tp_dev.x[0]>0&&tp_dev.x[0]<60)
-					{
-						choose[0]='P';
-						LCD_Fast_ShowChar(85,24,'P',24,0,RED);
-					}
+				{
+					choose[0]='P';
+					LCD_Fast_ShowChar(85,24,'P',24,0,RED);
+				}
 				else if(tp_dev.x[0]>60&&tp_dev.x[0]<125)
 				{
 					choose[0]='I';
@@ -236,7 +245,7 @@ void remote(void)//远程控制（红外）
 		}
 }
 
-void anglecontrol(long Angle)//角度控制函数（串口中被调用）
+void anglecontrol(long Angle)//角度控制函数
 {
 	long grid;
 	grid = Angle*0.93;
@@ -250,7 +259,7 @@ void anglecontrol(long Angle)//角度控制函数（串口中被调用）
 			pwm = 99;
 		TIM_SetCompare1(TIM12,pwm);	//修改比较值，修改占空比*/
 	}
-
+	
 	TIM_SetCompare1(TIM12,0);	//修改比较值，修改占空比
 	setspeed=0;
 	LCD_Fill(150,8,174,24,WHITE);	
